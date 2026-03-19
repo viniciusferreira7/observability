@@ -1,0 +1,34 @@
+# Environment
+.env
+.env.*
+!.env.example
+
+# Docker
+docker-compose.override.yml
+
+# Grafana data
+grafana/data/
+grafana/plugins/
+
+# Loki data
+loki/data/
+loki/chunks/
+loki/rules/
+
+# Tempo data
+tempo/data/
+tempo/wal/
+
+# Mimir data
+mimir/data/
+
+# Prometheus data
+prometheus/data/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
