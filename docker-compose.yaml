@@ -7,6 +7,17 @@ services:
       - 3100:3100
       - 7946
       - 9095
+  tempo:
+    image: grafana/tempo:2.6.1
+    container_name: tempo
+    restart: always
+    command: ["-config.file=/etc/tempo.yaml"]
+    volumes:
+      - ./config/tempo/tempo.yaml:/etc/tempo.yaml
+    ports:
+      - 3200:3200
+      - 4317:4317
+      - 4318:4318
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
@@ -23,3 +34,5 @@ services:
     depends_on:
       loki:
         condition: service_started
+      # tempo:
+      #   condition: service_started
