@@ -1,7 +1,13 @@
 {
   "cSpell.words": [
+    "grafana",
     "ingester",
+    "kvstore",
+    "memberlist",
+    "mimir",
+    "multitenancy",
     "otlp",
+    "prometheus",
     "promtail"
   ]
 }

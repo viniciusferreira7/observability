@@ -19,6 +19,16 @@ services:
       - 4317:4317
       - 4318:4318
 
+  mimir:
+    image: grafana/mimir:3.0.5
+    container_name: mimir
+    restart: always
+    command: ["-config.file=/etc/mimir.yaml"]
+    volumes:
+      - ./config/mimir/mimir.yaml:/etc/mimir.yaml
+    ports:
+      - 9090:9090
+
   promtail:
     image: grafana/promtail:3.6
     container_name: promtail
@@ -46,4 +56,6 @@ services:
       loki:
         condition: service_started
       tempo:
+        condition: service_started
+      mimir:
         condition: service_started
