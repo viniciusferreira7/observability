@@ -10,9 +10,10 @@ A study project focused on learning and implementing observability concepts in m
 | Tool | Version | Purpose | Port |
 |------|---------|---------|------|
 | **Loki** | 3.7.1 | Log aggregation | 3100 |
-| **Tempo** | 2.6.1 | Distributed tracing | 3200 (HTTP), 4317 (gRPC), 4318 (OTLP HTTP) |
+| **Grafana Tempo** | 2.6.1 | Distributed tracing | 3200 (HTTP), 4317 (gRPC), 4318 (OTLP HTTP) |
+| **Grafana Mimir** | 3.0.5 | Metrics storage | 9090 |
+| **Promtail** | 3.6 | Log collection agent | — |
 | **Grafana** | 12.4.2 | Visualization & dashboards | 3000 |
-| **Mimir** | — | Metrics storage | coming soon |
 
 ## Goals
 
