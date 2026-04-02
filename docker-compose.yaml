@@ -18,6 +18,9 @@ services:
       - 3200:3200
       - 4317:4317
       - 4318:4318
+    depends_on:
+      mimir:
+        condition: service_started
 
   mimir:
     image: grafana/mimir:3.0.5
@@ -58,4 +61,25 @@ services:
       tempo:
         condition: service_started
       mimir:
+        condition: service_started
+
+  otel:
+    image: otel/opentelemetry-collector-contrib:nightly
+    container_name: otel
+    restart: always
+    ports:
+      - 4317:4317
+      - 4318:4318
+      - 8888:8888
+    command: ["--config=/etc/otelcol/config.yaml", "arg"]
+    volumes:
+      - /config/otel/otel.yaml:/etc/otelcol/config.yaml
+    depends_on:
+      loki:
+        condition: service_started
+      tempo:
+        condition: service_started
+      mimir:
+        condition: service_started
+      grafana:
         condition: service_started

@@ -6,6 +6,8 @@
     "memberlist",
     "mimir",
     "multitenancy",
+    "opentelemetry",
+    "otelcol",
     "otlp",
     "prometheus",
     "promtail"
