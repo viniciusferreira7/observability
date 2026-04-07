@@ -9,7 +9,11 @@
     "opentelemetry",
     "otelcol",
     "otlp",
+    "otlphttp",
+    "pprof",
     "prometheus",
-    "promtail"
+    "prometheusremovewrite",
+    "promtail",
+    "zpages"
   ]
 }
