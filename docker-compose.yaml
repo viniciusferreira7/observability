@@ -15,7 +15,8 @@ services:
     volumes:
       - ./config/tempo/tempo.yaml:/etc/tempo.yaml
     ports:
-      - 3200:3200
+      - 4327:4327
+      - 4328:4328
     depends_on:
       mimir:
         condition: service_started
