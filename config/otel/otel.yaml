@@ -1,5 +1,3 @@
-file_format: 1.1.0
-
 receivers:
   otlp:
     protocols:
@@ -7,20 +5,20 @@ receivers:
         endpoint: 0.0.0.0:4317
       http:
         endpoint: 0.0.0.0:4318
-  prometheus: 
-    config: 
+  prometheus:
+    config:
       scrape_configs:
         - job_name: "otel"
           scrape_interval: 60s
-          static_configs: 
-            - targets: ['localhost:8888'] 
+          static_configs:
+            - targets: ['localhost:8888']
 
 processors:
-  batch: 
-  resources:
-    attributes: 
+  batch:
+  resource:
+    attributes:
       - action: insert
-        key: loki.resource,labels
+        key: loki.resource.labels
         value: service.name, service.environment
 
 exporters:
@@ -33,10 +31,10 @@ exporters:
      tls:
        insecure: true
   otlphttp/metrics:
-    endpoint: http://mimir:9009/otpl/v1/metrics
+    endpoint: http://mimir:9009/otlp/v1/metrics
     tls:
        insecure: true
-  prometheusremovewrite:
+  prometheusremotewrite:
     endpoint: http://mimir:9090/api/v1/push
     tls:
        insecure: true
@@ -50,14 +48,14 @@ service:
   extensions: [health_check, pprof, zpages]
   pipelines:
     logs:
-      receiver: [otlp]
+      receivers: [otlp]
       processors: [resource, batch]
-      exports: [otlphttp/loki]
+      exporters: [otlphttp/loki]
     traces:
-      receiver: [otlp]
+      receivers: [otlp]
       processors: [batch]
-      exports: [ otlp/tempo]
+      exporters: [otlp/tempo]
     metrics:
-      receiver: [otlp]  
+      receivers: [otlp]
       processors: [batch]
-      exports: [prometheusremovewrite]
+      exporters: [prometheusremotewrite]

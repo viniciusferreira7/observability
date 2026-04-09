@@ -12,7 +12,7 @@
     "otlphttp",
     "pprof",
     "prometheus",
-    "prometheusremovewrite",
+    "prometheusremotewrite",
     "promtail",
     "zpages"
   ]
