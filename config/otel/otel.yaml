@@ -22,7 +22,7 @@ processors:
         value: service.name, service.environment
 
 exporters:
-  otlphttp/loki:
+  otlphttp/logs:
     endpoint: http://loki:3100/otlp
     tls:
       insecure: true
@@ -50,7 +50,7 @@ service:
     logs:
       receivers: [otlp]
       processors: [resource, batch]
-      exporters: [otlphttp/loki]
+      exporters: [otlphttp/logs]
     traces:
       receivers: [otlp]
       processors: [batch]
