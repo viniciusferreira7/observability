@@ -5,6 +5,8 @@
 
 A study project focused on learning and implementing observability concepts in modern applications using the **Grafana LGTM stack**.
 
+This stack is used by [fast-feet-api](https://github.com/viniciusferreira7/fast-feet-api) as its observability backend.
+
 ## Stack
 
 | Tool | Version | Purpose | Port |
