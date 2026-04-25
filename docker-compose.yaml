@@ -2,7 +2,6 @@ services:
   loki:
     image: grafana/loki:3.7.1
     container_name: loki
-    restart: always
     ports:
       - 3100:3100
       - 7946
@@ -10,13 +9,13 @@ services:
   tempo:
     image: grafana/tempo:2.6.1
     container_name: tempo
-    restart: always
-    command: ["-config.file=/etc/tempo.yaml"]
+    command: [ "-config.file=/etc/tempo.yaml" ]
     volumes:
       - ./config/tempo/tempo.yaml:/etc/tempo.yaml
-    ports:
-      - 4327:4327
-      - 4328:4328
+    expose:
+      - 3200
+      - 4317
+      - 4318
     depends_on:
       mimir:
         condition: service_started
@@ -24,26 +23,37 @@ services:
   mimir:
     image: grafana/mimir:3.0.5
     container_name: mimir
-    restart: always
-    command: ["-config.file=/etc/mimir.yaml"]
+    command: [ "-config.file=/etc/mimir.yaml" ]
     volumes:
       - ./config/mimir/mimir.yaml:/etc/mimir.yaml
     ports:
+      - 9008:9008
+      - 9009:9009
+
+  prometheus:
+    image: prom/prometheus:main-distroless
+    container_name: prometheus
+    ports:
       - 9090:9090
+    command:
+      [
+        "--web.enable-remote-write-receiver",
+        "--config.file=/etc/prometheus/prometheus.yaml",
+      ]
+    volumes:
+      - ./config/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yaml
 
   promtail:
     image: grafana/promtail:3.6
     container_name: promtail
-    restart: always
     volumes:
       - /var/log:/var/log
       - ./config/promtail/config.yaml:/etc/promtail/config.yaml
-    command: ["-config.file=/etc/promtail/config.yaml"]
+    command: [ "-config.file=/etc/promtail/config.yaml" ]
 
   grafana:
     image: grafana/grafana:12.4.2
     container_name: grafana
-    restart: always
     ports:
       - 3000:3000
     volumes:
@@ -65,12 +75,15 @@ services:
   otel:
     image: otel/opentelemetry-collector-contrib:nightly
     container_name: otel
-    restart: always
     ports:
-      - 4317:4317
-      - 4318:4318
-      - 8888:8888
-    command: ["--config=/etc/otelcol/config.yaml"]
+      - 4317:4317 # gRPC
+      - 4318:4318 # HTTP
+      - 8888:8888 # prometheus-collector
+      - 8889:8889 # prometheus-exporter
+      - 1888:1888 # pprof
+      - 13133:13133 # Health
+      - 55679:55679 # z-pages
+    command: [ "--config=/etc/otelcol/config.yaml" ]
     volumes:
       - ./config/otel/otel.yaml:/etc/otelcol/config.yaml
     depends_on:
@@ -82,3 +95,5 @@ services:
         condition: service_started
       grafana:
         condition: service_started
+      prometheus:
+        condition: service_healthy
