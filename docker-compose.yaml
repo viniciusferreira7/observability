@@ -72,7 +72,7 @@ services:
       mimir:
         condition: service_started
       prometheus:
-        condition: service_healthy
+        condition: service_started
 
   otel:
     image: otel/opentelemetry-collector-contrib:nightly
@@ -98,4 +98,4 @@ services:
       grafana:
         condition: service_started
       prometheus:
-        condition: service_healthy
+        condition: service_started
