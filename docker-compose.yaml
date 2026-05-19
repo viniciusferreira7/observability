@@ -6,10 +6,31 @@ services:
       - 3100:3100
       - 7946
       - 9095
+
+  seaweedfs-master:
+    image: chrislusf/seaweedfs:latest
+    container_name: seaweedfs-master
+    command: "master"
+
+    ports:
+      - "9333:9333"
+
+    volumes:
+      - seaweedfs_master_data:/data
+
+  seaweedfs-volume:
+    image: chrislusf/seaweedfs:latest
+    container_name: seaweedfs-volume
+
+    command: 'volume -mserver="seaweedfs-master:9333" -dir="/data"'
+
+    depends_on:
+      seaweedfs-master:
+        condition: service_started
   tempo:
     image: grafana/tempo:2.6.1
     container_name: tempo
-    command: [ "-config.file=/etc/tempo.yaml" ]
+    command: ["-config.file=/etc/tempo.yaml"]
     volumes:
       - ./config/tempo/tempo.yaml:/etc/tempo.yaml
     expose:
@@ -23,7 +44,7 @@ services:
   mimir:
     image: grafana/mimir:3.0.5
     container_name: mimir
-    command: [ "-config.file=/etc/mimir.yaml" ]
+    command: ["-config.file=/etc/mimir.yaml"]
     volumes:
       - ./config/mimir/mimir.yaml:/etc/mimir.yaml
     ports:
@@ -49,7 +70,7 @@ services:
     volumes:
       - /var/log:/var/log
       - ./config/promtail/config.yaml:/etc/promtail/config.yaml
-    command: [ "-config.file=/etc/promtail/config.yaml" ]
+    command: ["-config.file=/etc/promtail/config.yaml"]
 
   grafana:
     image: grafana/grafana:12.4.2
@@ -85,7 +106,7 @@ services:
       - 1888:1888 # pprof
       - 13133:13133 # Health
       - 55679:55679 # z-pages
-    command: [ "--config=/etc/otelcol/config.yaml" ]
+    command: ["--config=/etc/otelcol/config.yaml"]
     volumes:
       - ./config/otel/otel.yaml:/etc/otelcol/config.yaml
     depends_on:
@@ -99,3 +120,7 @@ services:
         condition: service_started
       prometheus:
         condition: service_started
+
+volumes:
+  seaweedfs_master_data:
+  seaweedfs_volume_data:

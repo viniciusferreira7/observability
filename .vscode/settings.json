@@ -1,5 +1,6 @@
 {
   "cSpell.words": [
+    "chrislusf",
     "distroless",
     "grafana",
     "ingester",
@@ -15,6 +16,7 @@
     "prometheus",
     "prometheusremotewrite",
     "promtail",
+    "seaweedfs",
     "zpages"
   ]
 }
