@@ -46,7 +46,7 @@ services:
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
     volumes:
       - ./config/loki/loki.yaml:/etc/loki/config.yaml
-    command: ["-config.file=/etc/loki/config.yaml"]
+    command: ["-config.file=/etc/loki/config.yaml", "-config.expand-env=true"]
     depends_on:
       minio-init:
         condition: service_completed_successfully
@@ -54,7 +54,7 @@ services:
   tempo:
     image: grafana/tempo:2.6.1
     container_name: tempo
-    command: ["-config.file=/etc/tempo.yaml"]
+    command: ["-config.file=/etc/tempo.yaml", "-config.expand-env=true"]
     environment:
       - MINIO_ROOT_USER=${MINIO_ROOT_USER}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
@@ -73,7 +73,7 @@ services:
   mimir:
     image: grafana/mimir:3.0.5
     container_name: mimir
-    command: ["-config.file=/etc/mimir.yaml"]
+    command: ["-config.file=/etc/mimir.yaml", "-config.expand-env=true"]
     environment:
       - MINIO_ROOT_USER=${MINIO_ROOT_USER}
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
@@ -158,3 +158,4 @@ services:
 
 volumes:
   minio_data:
+
