@@ -37,7 +37,7 @@ common:
       access_key_id: ${MINIO_ROOT_USER}
       secret_access_key: ${MINIO_ROOT_PASSWORD}
       s3forcepathstyle: true
-      insecure: false
+      insecure: true
   replication_factor: 1
   ring:
     kvstore:
