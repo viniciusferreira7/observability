@@ -25,7 +25,9 @@ schema_config:
         period: 24h
 
 limits_config:
-  discover_log_levels: false
+  discover_log_levels: true
+  ingestion_rate_mb: 16
+  ingestion_burst_size_mb: 32
 
 common:
   instance_addr: 127.0.0.1
