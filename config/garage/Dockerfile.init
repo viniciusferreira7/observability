@@ -1,0 +1,9 @@
+# Garage's official image is built FROM scratch (no shell), so we copy the
+# static `garage` binary onto Alpine to get a shell for the bootstrap script.
+FROM dxflrs/garage:v2.1.0 AS garage
+
+FROM alpine:3.20
+COPY --from=garage /garage /usr/local/bin/garage
+COPY init.sh /usr/local/bin/init.sh
+RUN chmod +x /usr/local/bin/init.sh
+ENTRYPOINT ["/usr/local/bin/init.sh"]
