@@ -3,10 +3,11 @@ multitenancy_enabled: false
 blocks_storage:
   backend: s3
   s3:
-    endpoint: minio:9000
+    endpoint: garage:3900
+    region: us-east-1
     bucket_name: mimir
-    access_key_id: ${MINIO_ROOT_USER}
-    secret_access_key: ${MINIO_ROOT_PASSWORD}
+    access_key_id: ${GARAGE_ACCESS_KEY}
+    secret_access_key: ${GARAGE_SECRET_KEY}
     insecure: true
   bucket_store:
     sync_dir: /tmp/mimir/tsdb-sync

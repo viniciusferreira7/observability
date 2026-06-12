@@ -30,10 +30,10 @@ storage:
   trace:
     backend: s3
     s3:
-      endpoint: minio:9000
+      endpoint: garage:3900
       bucket: tempo
-      access_key: ${MINIO_ROOT_USER}
-      secret_key: ${MINIO_ROOT_PASSWORD}
+      access_key: ${GARAGE_ACCESS_KEY}
+      secret_key: ${GARAGE_SECRET_KEY}
       insecure: true
     wal:
       path: /tmp/tempo/wal
