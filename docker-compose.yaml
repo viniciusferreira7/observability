@@ -8,6 +8,14 @@ services:
       - 7946
       - 9095
 
+  tempo:
+    image: grafana/tempo:r268-049347c-2099-1
+    container_name: tempo
+    restart: unless-stopped
+    command: ["-config.file=/etc/tempo.yaml"]
+    volumes:
+      - ./config/tempo/tempo.yaml:/etc/tempo.yaml
+
   grafana:
     image: grafana/grafana:nightly-ubuntu
     container_name: grafana
@@ -23,4 +31,6 @@ services:
       - GF_SECURITY_ALLOW_EMBEDDING=${GF_SECURITY_ALLOW_EMBEDDING:-true}
     depends_on:
       loki:
+        condition: service_started
+      tempo:
         condition: service_started
